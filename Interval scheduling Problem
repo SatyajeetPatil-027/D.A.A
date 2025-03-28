@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct
+{
+    int start;
+    int end;
+} Interval;
+
+int compareIntervals(const void*a, const void*b)
+{
+    Interval*intervalA= (Interval*)a;
+    Interval*intervalB= (Interval*)b;
+    return intervalA-> end-intervalB-> end;
+}
+
+void intervalScheduling(Interval intervals[],int n)
+{
+    qsort(intervals,n,sizeof(Interval),compareIntervals);
+
+    int last_end_time =-1;
+    printf("Selected Non-Overlapping Intervals:\n");
+	int i;
+    for(i=0;i<n;i++)
+	{
+        if (intervals[i].start>=last_end_time)
+		{
+            printf("(%d, %d)\n",intervals[i].start,intervals[i].end);
+            last_end_time=intervals[i].end;
+        }
+    }
+}
+
+int main()
+{
+    Interval intervals[]= {{1,3}, {2,5}, {4,6}, {6,8}, {5,7}};
+    int n = sizeof(intervals)/sizeof(intervals[0]);
+    intervalScheduling(intervals,n);
+
+    return 0;
+}
